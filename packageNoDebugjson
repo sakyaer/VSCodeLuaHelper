@@ -1,0 +1,67 @@
+{
+    "name": "luahelper",
+    "displayName": "luahelper",
+    "description": "luahelper",
+    "version": "0.0.7",
+    "publisher": "zasidelpf",
+	"bugs": {
+        "url": "https://gitee.com/debugconsole/luahelper/issues",
+		"email": "120933965@qq.com"
+	},
+    "engines": {
+        "vscode": "^1.10.0",
+        "node": "^6.3.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onLanguage:lua"
+    ],
+    "main": "./out/extension",
+    "icon": "res/luaHelperLogo.png",
+    "contributes": {
+        "commands": [],
+        "snippets": [
+            {
+                "language": "lua",
+                "path": "./snippets/snippets.json"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "luahelper Configuration",
+            "properties": {
+                "luahelper.scriptRoots": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [],
+                    "description": "工作区根目录，可设定多个"
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+        
+    },
+    "dependencies": {
+        "luaparse": "^0.2.1",
+        "vscode-debugadapter": "1.27.0",
+        "vscode-debugprotocol": "1.27.0",
+        "vscode": "^1.1.6"
+    },
+    "devDependencies": {
+        "typescript": "^2.6.1",
+        "vscode": "^1.1.6",
+        "tslint": "^5.8.0",
+        "@types/node": "^7.0.43",
+        "@types/mocha": "^2.2.42"
+    }
+}

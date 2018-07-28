@@ -1,0 +1,44 @@
+a = -"foo"
+a = -                                   -- FAIL
+a = not 10
+a = not                                 -- FAIL
+a = 1 +                                 -- FAIL
+a = 1 ..                                -- FAIL
+a = 1 * /                               -- FAIL
+a = 1 + -2; a = 1 - -2
+a = 1 * -                               -- FAIL
+a = 1 * not 2; a = 1 / not 2
+a = 1 / not                             -- FAIL
+a = 1 + 2 - 3 * 4 / 5 ^ 6
+a = ((1                                 -- FAIL
+a = ((1 + 2)                            -- FAIL
+a = 1)                                  -- FAIL
+a = a + b - c
+a = "foo" + "bar"
+a = "foo".."bar".."baz"
+a = true + false - nil
+a = {} * {}
+a = function() end / function() end
+a = a() ^ b()
+a = 1 == 2; a = 1 ~= 2
+a = 1 < 2 <= 2 > 2 >= 2 == 2
+a = 1 ==                                -- FAIL
+a = `                                   -- FAIL
+a = ~                                   -- FAIL
+a = ~= 2                                -- FAIL
+a = a ~= b
+a = 1 and 2 or 2
+a = 1 and                               -- FAIL
+a = or 1                                -- FAIL
+a = {} and {} or {}
+a = (1) and ("foo") or (nil)
+// { "luaVersion": "5.2" }
+a = 1 // 0                              -- FAIL
+a = p ~ q                               -- FAIL
+a = p & q                               -- FAIL
+// { "luaVersion": "5.3" }
+a = 1 // 0
+a = p ~ q >> r | s
+a = ~ p ~ q / r
+a = a <=                                -- FAIL
+a = a >=                                -- FAIL

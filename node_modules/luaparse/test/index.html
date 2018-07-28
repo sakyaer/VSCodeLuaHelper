@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title>Spec Unit Tests</title>
+  <link rel="stylesheet" href="lib/newton.css">
+</head>
+<body>
+  <div id="suite"></div>
+  <script src="lib/spec.js"></script>
+  <script src="lib/newton.js"></script>
+  <script src="lib/spec_adapter.js"></script>
+
+  <!-- Library -->
+  <script>
+    (function (root) {
+      var parameters = root.Newton.parseQuery(root.location.search);
+      root.useRequire = false;
+
+      if (root.location.hash === '#testem') {
+        root.document.write('<script src="/testem.js"><\/script>');
+      }
+      if (root.Spec.hasKey(parameters, 'amd')) {
+        root.document.write('<script src="../components/requirejs/require.js"><\/script>');
+        root.useRequire = true;
+      }
+    }(this));
+  </script>
+  <script>
+    (function (root) {
+      if (root.useRequire) {
+        require({
+          // Thwart aggressive resource caching.
+          'urlArgs': 'async=' + (+new Date())
+        }, ['../luaparse'], function (luaparse) {
+          // Remember whether luaparse exposed a global.
+          var notExposed = typeof root.luaparse === 'undefined';
+          // The runner relies on the global.
+          root.luaparse = luaparse;
+
+          require(['runner'], function(runner) {
+            runner.addTest('Asynchronous Module Definition', function (test) {
+              setTimeout(function () {
+                test.equal(typeof luaparse.parse, 'function', 'Luaparse should be exported as an asynchronous module').done(2);
+              }, 1500);
+              test.ok(notExposed, 'Luaparse should not expose itself as a global when loaded as a module');
+            });
+            runner.run();
+          });
+        });
+      } else {
+        root.document.write('<script src="../luaparse.js"><\/script>');
+        root.document.write('<script src="runner.js"><\/script>');
+      }
+    }(this));
+  </script>
+  <script>
+    // Runner contains the spec files so the injection is done in a new
+    // <script> element.
+    (function(root) {
+      if (!useRequire) {
+        Spec.forEach(root.specs, function(spec) {
+          root.document.write('<script src="' + spec + '.js"><\/script>');
+        });
+        root.onload = root.run;
+      }
+    }(this));
+  </script>
+</body>
+</html>

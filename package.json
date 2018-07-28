@@ -1,0 +1,162 @@
+{
+    "name": "luahelper",
+    "displayName": "luahelper",
+    "description": "luahelper",
+    "version": "0.0.6",
+    "publisher": "zasidelpf",
+	"bugs": {
+        "url": "https://gitee.com/debugconsole/luahelper/issues",
+		"email": "120933965@qq.com"
+	},
+    "engines": {
+        "vscode": "^1.10.0",
+        "node": "^6.3.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onLanguage:lua"
+    ],
+    "main": "./out/extension",
+    "icon": "res/luaHelperLogo.png",
+    "contributes": {
+        "commands": [],
+        "snippets": [
+            {
+                "language": "lua",
+                "path": "./snippets/snippets.json"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "luahelper Configuration",
+            "properties": {
+                "luahelper.scriptRoots": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [],
+                    "description": "工作区根目录，可设定多个"
+                }
+            }
+        },
+        "breakpoints": [
+			{
+				"language": "lua"
+			}
+		],
+        "debuggers": [
+            {
+                "type": "lua",
+                "label": "LuaDebugger",
+                "program": "./out/debugger/DebugAdapter.js",
+                "runtime": "node",
+                "configurationAttributes": {
+                    "launch":{
+                        "required":[
+                            "runtimeType",
+                            "localRoot",
+                            "post",
+                            "printType",
+                            "exePath"
+                        ],
+                        "properties":{
+                            "runtimeType":{
+                                "type": "string",
+                                "default": "standalone",
+                                "description": "运行时类型",
+								"enum": [
+									"standalone"
+								]
+                            },
+                            "host":{
+                                "type":"string",
+                                "description": "调试器的地址",
+								"default": "localhost"
+                            },
+                            "port": {
+								"type": "number",
+								"description": "调试器的端口",
+								"default": 47111
+                            },
+							"localRoot": {
+								"type": "string",
+								"description": "工作区根目录",
+								"default": "${workspaceRoot}"
+							}
+                        }
+
+                    },
+                    "attach":{
+                        "required":[
+                            "runtimeType",
+                            "localRoot",
+                            "post"
+                        ],"properties":{
+                            "runtimeType":{
+                                "type": "string",
+                                "default": "attachUnity",
+                                "description": "运行时类型",
+								"enum": [
+									"attachUnity"
+                                ]
+                            },
+                            "port": {
+								"type": "number",
+								"description": "调试器的端口",
+								"default": 47111
+                            },							
+                            "localRoot": {
+								"type": "string",
+								"description": "--必填 当前文件目录 如果 运行程序支持 workdir 该参数当做 workdir进行传入",
+								"default": "${workspaceRoot}"
+							}
+                        }
+
+                    }
+                },
+                "initialConfigurations": [
+					{
+                        "name": "launch-alone-lua51",
+                        "type": "lua",
+                        "port": 47111,
+						"runtimeType": "standalone",
+						"request": "launch",
+                        "stopOnEntry": true,
+                        "localRoot":"${workspaceRoot}"
+                    },
+                    {
+                        "name": "attach(Unity)",
+						"request": "attach",
+						"runtimeType": "attachUnity",
+						"localRoot": "${workspaceRoot}",
+						"port": 47111
+                    }
+
+                ]  
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+        
+    },
+    "dependencies": {
+        "luaparse": "^0.2.1",
+        "vscode-debugadapter": "1.27.0",
+        "vscode-debugprotocol": "1.27.0",
+        "vscode": "^1.1.0"
+    },
+    "devDependencies": {
+        "typescript": "^2.6.1",
+        "tslint": "^5.8.0",
+        "@types/node": "^7.0.43",
+        "@types/mocha": "^2.2.42"
+    }
+}
